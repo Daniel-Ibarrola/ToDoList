@@ -68,11 +68,11 @@ class NewVisitorTest(LiveServerTestCase):
 		# The second user, Francis, also starts a new list
 
 		# We use a new browser session to ensure that no information of
-		# edith is coming through
+		# Edit is coming through
 		self.browser.quit()
 		self.browser = webdriver.Firefox()
 		self.browser.get(self.live_server_url)
-		page_text = self.browser.find_elements_by_tag_name('body').text
+		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertNotIn('Buy peacock feathers', page_text)
 		self.assertNotIn('make a fly', page_text)
 
@@ -85,6 +85,6 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertRegex(francis_list_url, '/lists/.+')
 		self.assertNotEqual(edith_list_url, francis_list_url)
 
-		page_text = self.browser.find_elements_by_tag_name('body').text
+		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertNotIn('Buy peacock feathers', page_text)
 		self.assertIn('Buy milk',  page_text)
