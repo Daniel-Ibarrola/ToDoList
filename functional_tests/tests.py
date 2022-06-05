@@ -111,4 +111,3 @@ class NewVisitorTest(LiveServerTestCase):
 			512,
 			delta=10
 		)
-		
