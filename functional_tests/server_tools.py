@@ -1,5 +1,9 @@
-from fabric.api import run
+from fabric.api import *
 from fabric.context_managers import settings, shell_env
+
+
+env.host_string = "ubuntu@superlists-1234-staging.xyz"
+env.key_filename = "./aws/ListsWebsite.pem"
 
 
 def _get_manage_dot_py(host):
@@ -8,8 +12,7 @@ def _get_manage_dot_py(host):
 
 def reset_database(host):
     manage_dot_py = _get_manage_dot_py(host)
-    with settings(host_string=f"ubuntu@{host}"):
-        run(f"{manage_dot_py} flush --noinput")
+    run(f"{manage_dot_py} flush --noinput")
 
 
 def _get_server_env_vars(host):
@@ -19,8 +22,7 @@ def _get_server_env_vars(host):
 
 def create_session_on_server(host, email):
     manage_dot_py = _get_manage_dot_py(host)
-    with settings(host_string=f"ubuntu@{host}"):
-        env_vars = _get_server_env_vars(host)
-        with shell_env(**env_vars):
-            session_key = run(f"{manage_dot_py} create_session {email}")
-            return session_key.strip()
+    env_vars = _get_server_env_vars(host)
+    with shell_env(**env_vars):
+        session_key = run(f"{manage_dot_py} create_session {email}")
+        return session_key.strip()
